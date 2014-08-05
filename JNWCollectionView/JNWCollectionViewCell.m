@@ -164,13 +164,13 @@
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	[super mouseUp:theEvent];
-	
 	[self.collectionView mouseUpInCollectionViewCell:self withEvent:theEvent];
 	
 	if (theEvent.clickCount == 2) {
 		[self.collectionView doubleClickInCollectionViewCell:self withEvent:theEvent];
 	}
+
+    [super mouseUp:theEvent];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent {
