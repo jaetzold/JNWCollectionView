@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
 		unsigned int delegateDidScroll:1;
 		unsigned int delegateDidDoubleClick:1;
 		unsigned int delegateDidRightClick:1;
+		unsigned int delegateDidEndDisplayingCell:1;
 		
 		unsigned int wantsLayout;
 	} _collectionViewFlags;
@@ -135,6 +136,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	_collectionViewFlags.delegateDidDeselect = [delegate respondsToSelector:@selector(collectionView:didDeselectItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidDoubleClick = [delegate respondsToSelector:@selector(collectionView:didDoubleClickItemAtIndexPath:)];
 	_collectionViewFlags.delegateDidRightClick = [delegate respondsToSelector:@selector(collectionView:didRightClickItemAtIndexPath:)];
+	_collectionViewFlags.delegateDidEndDisplayingCell = [delegate respondsToSelector:@selector(collectionView:didEndDisplayingCell:forItemAtIndexPath:)];
 }
 
 - (void)setDataSource:(id<JNWCollectionViewDataSource>)dataSource {
@@ -338,6 +340,11 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	[self.reusableSupplementaryViews removeAllObjects];
 	
 	// Remove any view mappings
+	if (_collectionViewFlags.delegateDidEndDisplayingCell) {
+		for (JNWCollectionViewCell *cell in self.visibleCellsMap.allValues) {
+			[self.delegate collectionView:self didEndDisplayingCell:cell forItemAtIndexPath:cell.indexPath];
+		}
+	}
 	[self.visibleCellsMap removeAllObjects];
 	[self.visibleSupplementaryViewsMap removeAllObjects];
 	
@@ -431,7 +438,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 - (NSArray *)layoutIdentifiersForSupplementaryViewsInRect:(CGRect)rect {
 	NSMutableArray *visibleIdentifiers = [NSMutableArray array];
-	NSArray *allIdentifiers = self.supplementaryViewClassMap.allKeys;
+	NSArray *allIdentifiers = [self allSupplementaryViewIdentifiers];
 	
 	if (CGRectEqualToRect(rect, CGRectZero))
 		return visibleIdentifiers;
@@ -657,6 +664,10 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 		[self enqueueReusableCell:cell withIdentifier:cell.reuseIdentifier];
 		
 		[cell setHidden:YES];
+
+		if (_collectionViewFlags.delegateDidEndDisplayingCell) {
+			[self.delegate collectionView:self didEndDisplayingCell:cell forItemAtIndexPath:indexPath];
+		}
 	}
 	
 	// Add the new cells
@@ -707,7 +718,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 #pragma mark Supplementary Views
 
 - (NSArray *)allSupplementaryViewIdentifiers {
-	return self.supplementaryViewClassMap.allKeys;
+	return [self.supplementaryViewClassMap.allKeys arrayByAddingObjectsFromArray:self.supplementaryViewNibMap.allKeys];
 }
 
 - (NSString *)supplementaryViewIdentifierWithKind:(NSString *)kind reuseIdentifier:(NSString *)reuseIdentifier {
