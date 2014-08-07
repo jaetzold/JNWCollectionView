@@ -136,6 +136,7 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 /// This method should be called after the data source has been set and initial setup on the collection
 /// view has been completed.
 - (void)reloadData;
+- (void)reloadDataWithoutSubviewReset;
 
 /// In order for cell or supplementary view dequeueing to occur, a class must be registered with the appropriate
 /// registration method.

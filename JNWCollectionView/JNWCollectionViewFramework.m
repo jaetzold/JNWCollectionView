@@ -316,6 +316,13 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	[self performFullRelayoutForcingSubviewsReset:YES];
 }
 
+- (void)reloadDataWithoutSubviewReset {
+	_collectionViewFlags.wantsLayout = YES;
+
+	[self.data recalculateAndPrepareLayout:YES];
+	[self performFullRelayoutForcingSubviewsReset:NO];
+}
+
 - (void)setCollectionViewLayout:(JNWCollectionViewLayout *)collectionViewLayout {
 	if (self.collectionViewLayout == collectionViewLayout)
 		return;
