@@ -115,6 +115,11 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 /// back into the reuse queue.
 - (void)collectionView:(JNWCollectionView *)collectionView didEndDisplayingCell:(JNWCollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 
+/// These methods are called immediately before and after a layout event and can be used to
+/// maintain scroll position between layouts.
+- (void)collectionViewLayoutWillChange:(JNWCollectionView *)collectionView;
+- (void)collectionViewLayoutDidChange:(JNWCollectionView *)collectionView;
+
 @end
 
 #pragma mark Reloading and customizing

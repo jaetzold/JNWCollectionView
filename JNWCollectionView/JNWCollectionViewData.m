@@ -56,6 +56,8 @@
 	if (layout == nil) {
 		return;
 	}
+
+    [self.collectionView.delegate collectionViewLayoutWillChange:self.collectionView];
 	
 	if (prepareLayout) {
 		if (_sectionData != nil) {
@@ -85,7 +87,7 @@
 		// Recalculate the layout.
 		[layout prepareLayout];
 	}
-	
+
 	for (NSInteger sectionIdx = 0; sectionIdx < self.numberOfSections; sectionIdx++) {
 		JNWCollectionViewSection section = self.sections[sectionIdx];
 		

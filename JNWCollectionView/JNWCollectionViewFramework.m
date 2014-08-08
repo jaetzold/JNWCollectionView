@@ -599,6 +599,11 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 	
 	[self layoutDocumentView];
+
+    // Now that the documentView's frame has been updated, we can let the delegate know that layouting is completed.
+    // This gives the delegate an opportunity to set a new scroll position before cells are laid out.
+    [self.delegate collectionViewLayoutDidChange:self];
+
 	[self layoutCellsWithRedraw:YES];
 	[self layoutSupplementaryViewsWithRedraw:YES];
 	
