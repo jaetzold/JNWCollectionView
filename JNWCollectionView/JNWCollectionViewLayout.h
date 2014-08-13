@@ -88,6 +88,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollDirection) {
 /// Default return value is nil.
 - (NSArray *)indexPathsForItemsInRect:(CGRect)rect;
 
+/// Used to optimise selection of cells.
+/// Default return value is nil; return an NSIndexItemPath to improve performance or if default behaviour is not desired.
+- (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)point;
+
 /// Subclasses should override this method to return the size of the specified section.
 ///
 /// Overriding this method significantly decreases the time taken to recalculate layout

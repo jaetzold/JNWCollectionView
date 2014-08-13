@@ -52,6 +52,10 @@
 	return nil;
 }
 
+- (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)point {
+    return nil;
+}
+
 - (CGRect)rectForSectionAtIndex:(NSInteger)index {
 	return CGRectNull;
 }

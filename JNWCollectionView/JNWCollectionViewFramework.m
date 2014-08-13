@@ -374,6 +374,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (NSIndexPath *)indexPathForItemAtPoint:(CGPoint)point {
+    NSIndexPath *result = [self.collectionViewLayout indexPathForItemAtPoint:point];
+    if(result != nil) return result;
+
 	// TODO: Optimize, and perhaps have an option to defer this to the layout class.
 	for (int i = 0; i < self.data.numberOfSections; i++) {
 		JNWCollectionViewSection section = self.data.sections[i];
