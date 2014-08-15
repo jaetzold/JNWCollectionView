@@ -51,13 +51,13 @@
 }
 
 - (void)recalculateAndPrepareLayout:(BOOL)prepareLayout {
+
+    [self.collectionView.delegate collectionViewLayoutWillChange:self.collectionView];
+
 	JNWCollectionViewLayout *layout = self.collectionView.collectionViewLayout;
-	
 	if (layout == nil) {
 		return;
 	}
-
-    [self.collectionView.delegate collectionViewLayoutWillChange:self.collectionView];
 	
 	if (prepareLayout) {
 		if (_sectionData != nil) {
