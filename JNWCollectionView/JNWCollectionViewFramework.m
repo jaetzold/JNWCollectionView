@@ -1028,6 +1028,16 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	}
 }
 
+- (void)deselectAllItems {
+	[self deselectItemsAtIndexPaths:[self allIndexPaths] animated:YES];
+}
+
+- (void)selectAllItems {
+	[self selectAll:nil];
+}
+
+#pragma mark NSScrollView
+
 - (void)moveUp:(id)sender {
 	NSIndexPath *toSelect = [self.collectionViewLayout indexPathForNextItemInDirection:JNWCollectionViewDirectionUp currentIndexPath:[self indexPathForSelectedItem]];
 	[self selectItemAtIndexPath:toSelect atScrollPosition:JNWCollectionViewScrollPositionNearest animated:YES];}
@@ -1069,14 +1079,6 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 
 - (void)selectAll:(id)sender {
 	[self selectItemsAtIndexPaths:[self allIndexPaths] animated:YES];
-}
-
-- (void)deselectAllItems {
-	[self deselectItemsAtIndexPaths:[self allIndexPaths] animated:YES];
-}
-
-- (void)selectAllItems {
-	[self selectAll:nil];
 }
 
 #pragma mark NSObject
