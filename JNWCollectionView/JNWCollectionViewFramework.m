@@ -28,12 +28,6 @@
 #import "JNWCollectionViewLayout.h"
 #import "JNWCollectionViewLayout+Private.h"
 
-typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
-	JNWCollectionViewSelectionTypeSingle,
-	JNWCollectionViewSelectionTypeExtending,
-	JNWCollectionViewSelectionTypeMultiple
-};
-
 @interface JNWCollectionView() {
 	struct {
 		unsigned int dataSourceNumberOfSections:1;

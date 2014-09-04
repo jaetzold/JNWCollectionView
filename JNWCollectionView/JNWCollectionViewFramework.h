@@ -23,6 +23,12 @@
 #import "NSIndexPath+JNWAdditions.h"
 #import "JNWScrollView.h"
 
+typedef NS_ENUM(NSInteger, JNWCollectionViewSelectionType) {
+	JNWCollectionViewSelectionTypeSingle,
+	JNWCollectionViewSelectionTypeExtending,
+	JNWCollectionViewSelectionTypeMultiple
+};
+
 typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 	/// Does not scroll, only selects.
 	JNWCollectionViewScrollPositionNone,
@@ -271,7 +277,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 /// Selects the item at the specified index path, deselecting any other selected items in the process, optionally animated.
 /// The collection view will then scroll to that item in the position as determined by scrollPosition. If no scroll is
 /// desired, pass in JNWCollectionViewScrollPositionNone to prevent the scroll..
-- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated;
+- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition animated:(BOOL)animated selectionType:(JNWCollectionViewSelectionType)selectionType;
+
+/// Deselects the item at the specified index path, optionally animated.
+- (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 /// Selects all items in the collection view.
 - (void)selectAllItems;
