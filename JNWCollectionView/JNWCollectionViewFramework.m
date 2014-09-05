@@ -931,6 +931,29 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 	return nil;
 }
 
+- (NSArray *)indicesFrom:(NSIndexPath *)firstIndex to:(NSIndexPath *)lastIndex {
+    if(!firstIndex || !lastIndex) return nil;
+
+    NSMutableArray *result = [NSMutableArray arrayWithObject:firstIndex];
+
+    if (![firstIndex isEqual:lastIndex]) {
+        NSComparisonResult order = [firstIndex compare:lastIndex];
+        NSIndexPath *nextIndex = firstIndex;
+
+        while (nextIndex != nil && ![nextIndex isEqual:lastIndex]) {
+            [result addObject:nextIndex];
+
+            if (order == NSOrderedAscending) {
+                nextIndex = [self indexPathForNextSelectableItemAfterIndexPath:nextIndex];
+            } else if (order == NSOrderedDescending) {
+                nextIndex = [self indexPathForNextSelectableItemBeforeIndexPath:nextIndex];
+            }
+        }
+    }
+
+    return result;
+}
+
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath
 			atScrollPosition:(JNWCollectionViewScrollPosition)scrollPosition
 					animated:(BOOL)animated
@@ -954,23 +977,9 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 		// Take the index selected first, and select all items between there and the
 		// last selected item.
 		NSIndexPath *firstIndex = (self.selectedIndexes.count > 0 ? self.selectedIndexes[0] : nil);
-		if (firstIndex != nil) {
-			[indexesToSelect addObject:firstIndex];
-			
-			if (![firstIndex isEqual:indexPath]) {
-				NSComparisonResult order = [firstIndex compare:indexPath];
-				NSIndexPath *nextIndex = firstIndex;
-				
-				while (nextIndex != nil && ![nextIndex isEqual:indexPath]) {
-					[indexesToSelect addObject:nextIndex];
-					
-					if (order == NSOrderedAscending) {
-						nextIndex = [self indexPathForNextSelectableItemAfterIndexPath:nextIndex];
-					} else if (order == NSOrderedDescending) {
-						nextIndex = [self indexPathForNextSelectableItemBeforeIndexPath:nextIndex];
-					}
-				}
-			}
+        NSArray *indicesToAdd = [self indicesFrom:firstIndex to:indexPath];
+		if (indicesToAdd != nil) {
+            [indexesToSelect addObjectsFromArray:indicesToAdd];
 		}
 		
 		[indexesToSelect addObject:indexPath];
