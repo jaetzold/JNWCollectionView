@@ -282,6 +282,10 @@ typedef NS_ENUM(NSInteger, JNWCollectionViewScrollPosition) {
 /// Deselects the item at the specified index path, optionally animated.
 - (void)deselectItemAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
+// Made public for performance reasons (leonard@dropbox.com)
+- (void)selectItemsAtIndexPaths:(NSArray *)indexPaths animated:(BOOL)animated;
+- (void)deselectItemsAtIndexPaths:(NSArray *)indexPaths animated:(BOOL)animated;
+
 /// Selects all items in the collection view.
 - (void)selectAllItems;
 
