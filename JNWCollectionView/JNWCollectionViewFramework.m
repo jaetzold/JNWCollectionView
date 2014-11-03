@@ -1017,7 +1017,8 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (void)mouseUpInCollectionViewCell:(JNWCollectionViewCell *)cell withEvent:(NSEvent *)event {
-	if (_collectionViewFlags.delegateMouseUp && !event.modifierFlags) {
+    BOOL modifierKeys = (event.modifierFlags & NSDeviceIndependentModifierFlagsMask) > 0; // dtw: strangely enough, this doesn't work without the > 0...
+	if (_collectionViewFlags.delegateMouseUp && !modifierKeys) {
 		NSIndexPath *indexPath = [self indexPathForCell:cell];
 		[self.delegate collectionView:self mouseUpInItemAtIndexPath:indexPath];
 	}
