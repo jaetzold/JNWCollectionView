@@ -1017,7 +1017,7 @@ static void JNWCollectionViewCommonInit(JNWCollectionView *collectionView) {
 }
 
 - (void)mouseUpInCollectionViewCell:(JNWCollectionViewCell *)cell withEvent:(NSEvent *)event {
-	if (_collectionViewFlags.delegateMouseUp) {
+	if (_collectionViewFlags.delegateMouseUp && !event.modifierFlags) {
 		NSIndexPath *indexPath = [self indexPathForCell:cell];
 		[self.delegate collectionView:self mouseUpInItemAtIndexPath:indexPath];
 	}
